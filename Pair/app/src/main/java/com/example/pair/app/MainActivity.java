@@ -94,7 +94,7 @@ public class MainActivity extends ActionBarActivity {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(startBtn.getText() == "start"){
+                if(!gameStart){
                     startBtn.setText("restart");
                     gameStart = true;
                 }
@@ -146,6 +146,7 @@ public class MainActivity extends ActionBarActivity {
                                 matchCount++;
                                 if(matchCount == 8){
                                     success.show();
+                                    matchCount = 0;
                                 }
                             } else {
                                 buttons.get(lastClickedIndex).setBackgroundResource(defaultBgID);
