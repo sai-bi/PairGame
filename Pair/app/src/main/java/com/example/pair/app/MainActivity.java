@@ -1,21 +1,26 @@
 package com.example.pair.app;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.TextView;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+
+
 
 
 public class MainActivity extends ActionBarActivity {
@@ -29,9 +34,14 @@ public class MainActivity extends ActionBarActivity {
     private int operationCount;
     private int matchCount = 0;
     private TextView operationView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
         defaultBgID = R.drawable.defaultbg;
@@ -43,6 +53,7 @@ public class MainActivity extends ActionBarActivity {
         matchCount = 0;
         operationView = (TextView)findViewById(R.id.operation);
         operationView.setText("Total operations: " + Integer.toString(operationCount));
+
 
 
         buttons = new ArrayList<Button>();
@@ -170,6 +181,8 @@ public class MainActivity extends ActionBarActivity {
 
 
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         
@@ -189,5 +202,41 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    @Override
+
+    public void onConfigurationChanged(Configuration newConfig) {
+
+        super.onConfigurationChanged(newConfig);
+
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+            param.columnSpec = GridLayout.spec(4, 4);
+            param.rowSpec = GridLayout.spec(0, 1);
+            operationView.setLayoutParams(param);
+
+            GridLayout.LayoutParams param1 = new GridLayout.LayoutParams();
+            param1.columnSpec = GridLayout.spec(4,4);
+            param1.rowSpec = GridLayout.spec(1, 1);
+            startBtn.setLayoutParams(param1);
+        }
+
+        else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            GridLayout.LayoutParams param = new GridLayout.LayoutParams();
+            param.columnSpec = GridLayout.spec(0, 4);
+            param.rowSpec = GridLayout.spec(4, 1);
+            operationView.setLayoutParams(param);
+
+            GridLayout.LayoutParams param1 = new GridLayout.LayoutParams();
+            param1.columnSpec = GridLayout.spec(0, 4);
+            param1.rowSpec = GridLayout.spec(5, 1);
+            startBtn.setLayoutParams(param1);
+            startBtn.setGravity(Gravity.FILL);
+        }
+
+    }
+
+
 
 }
